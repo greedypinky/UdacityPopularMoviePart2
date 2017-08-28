@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Pop Movies</string>
+    <string name="app_pop_title">Pop Movies</string>
+    <string name="app_top_rated_title">Top Rated Movies</string>
+    <string name="app_favorites_title">Favorite Movies</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="most_popular">Most Popular</string>
+    <string name="favorite">Favorites</string>
+    <string name="action_reviews">Reviews</string>
+    <string name="button_favorite">MARK AS FAVORITE</string>
+    <string name="trailers_header">Trailers</string>
+    <string name="title_activity_movie_detail">MovieDetail</string>
+    <string name="error_message">There is an error occurs! Please try again</string>
+    <string name="title_activity_movie_video_adapter">MovieVideoAdapter</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="sort_key">SORT_KEY</string>
+</resources>

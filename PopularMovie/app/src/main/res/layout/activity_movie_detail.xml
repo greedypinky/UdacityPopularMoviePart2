@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollview_plot"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+
+<LinearLayout
     android:id="@+id/movie_details"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
+    <!-- Title Header -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="180dp"
@@ -24,7 +30,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="12dp">
 
-
+        <!-- Poster image -->
         <ImageView
             android:layout_alignParentLeft="true"
             android:id="@+id/image_movie_poster"
@@ -33,6 +39,7 @@
             android:paddingLeft="22dp"
             />
 
+        <!-- Release year -->
             <TextView
                 android:layout_toRightOf="@+id/image_movie_poster"
                 android:id="@+id/text_movie_release_year"
@@ -42,6 +49,7 @@
                 android:paddingLeft="22dp"
                 />
 
+        <!-- Rating -->
             <TextView
                 android:layout_toRightOf="@+id/image_movie_poster"
                 android:layout_below="@+id/text_movie_release_year"
@@ -52,7 +60,7 @@
                 android:paddingLeft="22dp"
 
                 />
-
+                <!-- Favorite button -->
               <Button
                   android:id="@+id/add_favorite_button"
                   android:layout_toRightOf="@+id/image_movie_poster"
@@ -66,42 +74,58 @@
 
     </RelativeLayout>
 
-    <ScrollView
-        android:id="@+id/scrollview_plot"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+    <!-- Movie Plot -->
+    <TextView
+        android:id="@+id/text_movie_plot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:scrollbars="vertical"
         android:padding="22dp"
-        android:layout_gravity="bottom"
-        android:layout_marginTop="5dp">
-        android:layout_marginBottom="10dp">
-        <TextView
-            android:id="@+id/text_movie_plot"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="22sp"
-            android:scrollbars="vertical"
-            />
-        <!-- Divider -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#dadada"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp" />
+        />
 
-        <!-- Trailer Header -->
-        <TextView
-            android:id="@+id/text_trailers_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:text="@string/trailers_header"
-            android:textSize="18sp"/>
+    <!-- Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#dadada"
+        android:padding="22dp"/>
 
-    </ScrollView>
+    <!-- Trailer Header -->
+    <TextView
+        android:id="@+id/text_trailers_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/trailers_header"
+        android:textSize="20sp"
+        android:padding="22dp"/>
 
+    <!-- Recycler View : Trailer list -->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/movie_videos_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="22dp">
+    </android.support.v7.widget.RecyclerView>
+
+
+    <!-- TODO: add the right padding later -->
+    <TextView
+        android:id="@+id/text_detail_error_message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="20sp"
+        android:text="@string/error_message"
+        android:visibility="invisible"
+        android:padding="22dp"/>
+
+    <ProgressBar
+        android:id="@+id/pb_detail_loading_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:visibility="invisible"/>
 
 </LinearLayout>
+
+</ScrollView>

@@ -8,7 +8,7 @@
     <string name="favorite">Favorites</string>
     <string name="action_reviews">Reviews</string>
     <string name="button_favorite">MARK AS FAVORITE</string>
-    <string name="trailers_header">Trailers</string>
+    <string name="trailers_header">Trailers:</string>
     <string name="title_activity_movie_detail">MovieDetail</string>
     <string name="error_message">There is an error occurs! Please try again</string>
     <string name="title_activity_movie_video_adapter">MovieVideoAdapter</string>

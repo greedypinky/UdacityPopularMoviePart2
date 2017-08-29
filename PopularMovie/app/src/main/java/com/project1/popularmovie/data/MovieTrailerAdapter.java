@@ -3,6 +3,7 @@ package com.project1.popularmovie.data;
 import android.content.Context;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +12,11 @@ import android.widget.TextView;
 import com.project1.popularmovie.R;
 
 public class MovieTrailerAdapter extends RecyclerView.Adapter<MovieTrailerAdapter.VideoViewHolder> {
+
+    private static final String TAG = MovieTrailerAdapter.class.getSimpleName();
     String[] mVideos = null;
     public final MovieTrailerOnClickHandler mClickHandler;
+
 
     /**
      * Constructer
@@ -34,7 +38,7 @@ public class MovieTrailerAdapter extends RecyclerView.Adapter<MovieTrailerAdapte
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         boolean shouldAttachToParentImmediately = false;
-        View videoLayoutList = inflater.inflate(R.layout.activity_movie_video_adapter,parent,shouldAttachToParentImmediately);
+        View videoLayoutList = inflater.inflate(R.layout.activity_movie_video_adapter, parent, shouldAttachToParentImmediately);
         return new VideoViewHolder(videoLayoutList);
 
     }
@@ -42,13 +46,13 @@ public class MovieTrailerAdapter extends RecyclerView.Adapter<MovieTrailerAdapte
     @Override
     public void onBindViewHolder(VideoViewHolder holder, int position) {
         String video = mVideos[position];
-        holder.mTrailerText.setText("Trailer" + position);
-
+        int index = position + 1;
+        holder.mTrailerText.setText("Trailer " + index);
     }
 
     @Override
     public int getItemCount() {
-        if(mVideos==null) {
+        if (mVideos==null) {
             return 0;
         }
         else {
@@ -64,8 +68,14 @@ public class MovieTrailerAdapter extends RecyclerView.Adapter<MovieTrailerAdapte
      * @param videos
      */
     public void setTrailersData(String[] videos) {
-        mVideos = videos;
-        notifyDataSetChanged(); // this will trigger the update of the adapter
+        if(videos != null) {
+            // create new array again with new length
+            mVideos = new String[videos.length];
+            mVideos = videos;
+            notifyDataSetChanged(); // this will trigger the update of the adapter
+        } else {
+            Log.d(TAG, "set no data");
+        }
     }
 
     //TODO: we need to create a inner class VideoViewHolder
@@ -76,7 +86,7 @@ public class MovieTrailerAdapter extends RecyclerView.Adapter<MovieTrailerAdapte
 
         TextView mTrailerText;
 
-        public VideoViewHolder(View layoutView){
+        public VideoViewHolder(View layoutView) {
             super(layoutView);
             mTrailerText = (TextView)layoutView.findViewById(R.id.trailer_name);
             mTrailerText.setOnClickListener(this);
@@ -88,6 +98,7 @@ public class MovieTrailerAdapter extends RecyclerView.Adapter<MovieTrailerAdapte
             // Do it from Detail Activity
             // Activity implements the onClickHandler
             int selectedTrailer = getAdapterPosition();
+            Log.d(TAG, "onClick selectedTrailer position: " + selectedTrailer);
             String trailerKey = mVideos[selectedTrailer];
             // TODO: need to implement the onClickHander in the activity
             mClickHandler.onClickToPlayVideo(trailerKey);

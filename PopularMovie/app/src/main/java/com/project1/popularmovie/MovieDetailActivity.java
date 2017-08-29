@@ -90,6 +90,7 @@ public class MovieDetailActivity extends AppCompatActivity implements
         // Set Adapter for the RecyclerView
         mMovieVideoList.setAdapter(mTrailerAdapter);
 
+
         if(mSelectedMovie !=null) {
 
             mOriginalTitle.setText(mSelectedMovie.getMovieTitle());
@@ -106,20 +107,21 @@ public class MovieDetailActivity extends AppCompatActivity implements
 
         // TODO : add back the call to get Video Trailer URL
         // TODO: create the AsycnTask - the new one in Lesson6
+        LoaderManager.LoaderCallbacks<String[]> loaderCallbacks = MovieDetailActivity.this;
         Bundle args = new Bundle();
-        getSupportLoaderManager().initLoader(LOADER_ID, args, this);
+        args.putString("MOVIE_ID", mSelectedMovie.getMovieId());
+        Log.d(TAG,"getSupportLoaderManager");
+        getSupportLoaderManager().initLoader(LOADER_ID, args, loaderCallbacks);
 
     }
 
-    private void showErrorMessage(){
-
+    private void showErrorMessage() {
         //TODO: Error message visible
         mErrorMessage.setVisibility(View.VISIBLE);
         mMovieVideoList.setVisibility(View.INVISIBLE);
     }
 
-    private void showTrailers(){
-
+    private void showTrailers() {
         //TODO: set Error message Invisible
         mErrorMessage.setVisibility(View.INVISIBLE);
         mMovieVideoList.setVisibility(View.VISIBLE);
@@ -152,17 +154,13 @@ public class MovieDetailActivity extends AppCompatActivity implements
     // Method to handle when recycler's row is being clicked
     @Override
     public void onClickToPlayVideo(String trailerID) {
-
         // TODO: start intent to play the youtube video
-        //String trailerPath = "http://www.youtube.com/watch?v=" + trailerID;
-
-        String trailerPath = "http://www.youtube.com/watch?v=opZ69P-0Jbc";
+        String trailerPath = "http://www.youtube.com/watch?v=" + trailerID;
+        //String trailerPath = "http://www.youtube.com/watch?v=opZ69P-0Jbc";
         Uri uri = Uri.parse(trailerPath);
 
         Intent trailerIndent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(trailerIndent);
-
-
     }
 
 
@@ -191,43 +189,47 @@ public class MovieDetailActivity extends AppCompatActivity implements
     @Override
     public Loader<String[]> onCreateLoader(int id, final Bundle args) {
         // cache the result
-
         return new AsyncTaskLoader<String[]>(this) {
             String[] trailersData = null;
             @Override
             public String[] loadInBackground() {
+                Log.d(TAG,"loadInBackground");
+                String movieID = args.getString("MOVIE_ID");
+                Log.d(TAG,"Load trailer URL for movieid:" + movieID);
 
-                String movieID = mSelectedMovie.getMovieId();
                 URL trailerURL = MovieNetworkUtility.getMovieURL(MovieNetworkUtility.VIDEOS,movieID);
+                Log.d(TAG,"Load trailer URL:" + trailerURL);
+
                 try {
                     String response = MovieNetworkUtility.getResponseFromHttp(trailerURL);
                     trailersData = MovieTrailerJSONUtility.parseTrailerData(getApplicationContext(),response);
+                    Log.e(TAG,"JSON parsed data:" + trailersData);
                 } catch (Exception e) {
-
+                    e.printStackTrace();
+                    Log.e(TAG,e.getMessage());
                     return null;
                 }
 
-                return new String[0];
+                return trailersData;
             }
 
             @Override
             protected void onStartLoading() {
-
+                Log.d(TAG,"onStartLoading");
                 super.onStartLoading();
-                if (trailersData != null) {
-
-                   deliverResult(trailersData);
-
-                }
-                else {
+//                if (trailersData != null) {
+//                   deliverResult(trailersData);
+//                }
+               // else {
                     Log.d(TAG,"forceLoad");
                     forceLoad();
-                }
+               // }
             }
 
             @Override
             public void deliverResult(String[] data)
             {
+                Log.d(TAG,"deliverResult");
                 // cache the Data
                 if (data != null) {
                     trailersData = data;
@@ -260,6 +262,7 @@ public class MovieDetailActivity extends AppCompatActivity implements
 
     @Override
     public void onLoaderReset(Loader<String[]> loader) {
+        Log.d(TAG,"onLoaderReset");
 
     }
 }
